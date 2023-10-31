@@ -15,35 +15,44 @@ library(p8105.datasets)
 
 data("instacart")
 
-top_fruits_df = instacart|>
-  filter(aisle == "fresh fruits")
+top_fruits = instacart|>
+  filter(aisle == "fresh fruits")|>
+  count(product_name, sort = TRUE) |>
+  top_n(10, wt = n)|>
+  pull(product_name)
 
+top_fruits_df =  instacart |>
+  filter(aisle == "fresh fruits", product_name %in% top_fruits)
 
+hourly_sales <- top_fruits_df |>
+  group_by(product_name,order_hour_of_day) |>
+  summarize(sales = n()) |>
+  arrange(order_hour_of_day)
 ```
 
 This is a dashbroad
 
-Column {data-width=650}
+Column {data-width=400}
 -----------------------------------------------------------------------
 
 ### Chart A
 
 ```{r}
 top_fruits_df|>
-  count(product_name, sort = TRUE)|>
-  top_n(20, wt = n)|>
+  count(product_name, sort = TRUE) |>
    mutate(product_name = fct_reorder(product_name, -n))|>
-  plot_ly(x = ~product_name, y = ~n, color = ~product_name,type = 'bar')|>
+  plot_ly(x = ~product_name, y = ~n, color = ~product_name,type = 'bar',colors = "viridis")|>
   layout(title = "Top 20 Most Ordered Fruits")
 ```
 
-Column {data-width=350}
+Column {data-width=400}
 -----------------------------------------------------------------------
 
 ### Chart B
 
 ```{r}
-
+hourly_sales|>
+  plot_ly( x = ~order_hour_of_day, y = ~sales, color = ~product_name, type = 'scatter',  mode = 'lines+markers',colors = "plasma")
 ```
 
 ### Chart C
