@@ -1,0 +1,13 @@
+---
+title: "Ruoxi Li"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+---
+
+## This is Ruoxi Li's personal website.
+
+I am Ruoxi Li, a graduate student specializing in Biostatistics at Columbia University's Irving Medical Center. Holding a Bachelor's degree in Preventive Medicine, my academic foundation is deeply rooted in the prevention and mitigation of health risks. My passion lies in harnessing the power of biostatistical methods to address medical challenges, with a particular focus on clinical trials and the development of new drugs.
+
+Learn more about my academic and professional experience:[about me](About-me.html)
