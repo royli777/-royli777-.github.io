@@ -1,0 +1,66 @@
+---
+title: "Dashboard for instacart"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+
+library(tidyverse)
+library(plotly)
+library(p8105.datasets)
+
+data("instacart")
+
+top_fruits = instacart|>
+  filter(aisle == "fresh fruits")|>
+  count(product_name, sort = TRUE) |>
+  top_n(10, wt = n)|>
+  pull(product_name)
+
+top_fruits_df =  instacart |>
+  filter(aisle == "fresh fruits", product_name %in% top_fruits)
+
+daily_sales<- top_fruits_df |>
+  group_by(product_name,order_dow) |>
+  summarize(sales = n()) |>
+  arrange(order_dow)
+```
+
+This dashboard presents data on the 10 most popular fresh fruits sold on Instacart. Chart A highlights the sales rankings of these top 10 fruits. Chart B illustrates the distribution of order times throughout the day for these fruits. Lastly, Chart C provides insights into the daily sales figures for each of these top-selling fruits.
+
+Column {data-width=400}
+-----------------------------------------------------------------------
+
+### Chart A
+
+```{r}
+top_fruits_df|>
+  count(product_name, sort = TRUE) |>
+   mutate(product_name = fct_reorder(product_name, -n))|>
+  plot_ly(x = ~product_name, y = ~n, color = ~product_name,type = 'bar',colors = "viridis")|>
+  layout(title = "Top 10 Most Ordered Fruits")
+```
+
+Column {data-width=400}
+-----------------------------------------------------------------------
+
+### Chart B
+
+```{r}
+top_fruits_df|>
+  plot_ly( x = ~product_name, y = ~order_hour_of_day, color = ~product_name, type = 'box',colors = "plasma")|>
+ layout(title = "Distribution of Order Hours for Top 10 Fruits")
+```
+
+### Chart C
+
+```{r}
+daily_sales|>
+  plot_ly( x = ~order_dow, y = ~sales, color = ~product_name, type = 'scatter',  mode = 'lines+markers',colors = "plasma")|>
+ layout(title = "Daily Sales for Top 10 Fruits")
+```
+

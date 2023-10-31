@@ -27,4 +27,6 @@ In terms of technical skills, I primarily utilize R for data analysis. Additiona
 
 Learn more about my academic and professional experience: [resume](About-me.html)
 
+Here is the link to the [dashboard](dashboard.html).
+
 
