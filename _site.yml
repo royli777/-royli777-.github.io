@@ -3,8 +3,8 @@ output_dir: "."
 navbar:
   title: "Home"
   left:
-    - text: "About me"
-      href: About-me.html
+    - text: "Resume"
+      href: resume.html
   right:
     - icon: fa-envelope fa-lg
       href: mailto:<rl3401@cumc.columbia.edu>
@@ -12,4 +12,4 @@ navbar:
       href: https://github.com/royli777
 output:
   html_document:
-    theme: cerulean
+    theme: cosmo
