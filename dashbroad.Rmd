@@ -24,10 +24,10 @@ top_fruits = instacart|>
 top_fruits_df =  instacart |>
   filter(aisle == "fresh fruits", product_name %in% top_fruits)
 
-hourly_sales <- top_fruits_df |>
-  group_by(product_name,order_hour_of_day) |>
+daily_sales<- top_fruits_df |>
+  group_by(product_name,order_dow) |>
   summarize(sales = n()) |>
-  arrange(order_hour_of_day)
+  arrange(order_dow)
 ```
 
 This is a dashbroad
@@ -42,7 +42,7 @@ top_fruits_df|>
   count(product_name, sort = TRUE) |>
    mutate(product_name = fct_reorder(product_name, -n))|>
   plot_ly(x = ~product_name, y = ~n, color = ~product_name,type = 'bar',colors = "viridis")|>
-  layout(title = "Top 20 Most Ordered Fruits")
+  layout(title = "Top 10 Most Ordered Fruits")
 ```
 
 Column {data-width=400}
@@ -51,13 +51,16 @@ Column {data-width=400}
 ### Chart B
 
 ```{r}
-hourly_sales|>
-  plot_ly( x = ~order_hour_of_day, y = ~sales, color = ~product_name, type = 'scatter',  mode = 'lines+markers',colors = "plasma")
+top_fruits_df|>
+  plot_ly( x = ~product_name, y = ~order_hour_of_day, color = ~product_name, type = 'box',colors = "plasma")|>
+ layout(title = "Distribution of Order Hours for Top 10 Fruits")
 ```
 
 ### Chart C
 
 ```{r}
-
+daily_sales|>
+  plot_ly( x = ~order_dow, y = ~sales, color = ~product_name, type = 'scatter',  mode = 'lines+markers',colors = "plasma")|>
+ layout(title = "Daily Sales for Top 10 Fruits")
 ```
 
