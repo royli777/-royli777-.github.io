@@ -1,0 +1,54 @@
+---
+title: "Untitled"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+
+library(tidyverse)
+library(plotly)
+library(p8105.datasets)
+
+data("instacart")
+
+top_fruits_df = instacart|>
+  filter(aisle == "fresh fruits")
+
+
+```
+
+This is a dashbroad
+
+Column {data-width=650}
+-----------------------------------------------------------------------
+
+### Chart A
+
+```{r}
+top_fruits_df|>
+  count(product_name, sort = TRUE)|>
+  top_n(20, wt = n)|>
+   mutate(product_name = fct_reorder(product_name, -n))|>
+  plot_ly(x = ~product_name, y = ~n, color = ~product_name,type = 'bar')|>
+  layout(title = "Top 20 Most Ordered Fruits")
+```
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### Chart B
+
+```{r}
+
+```
+
+### Chart C
+
+```{r}
+
+```
+
